@@ -152,9 +152,9 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
     DMatrix acadodata_M2;
     acadodata_M2.read( "NMPC_ACADO_MATALAB_data_acadodata_M2.txt" );
     DVector acadodata_v4(13);
-    acadodata_v4(0) = 0;
-    acadodata_v4(1) = 0;
-    acadodata_v4(2) = 0;
+    acadodata_v4(0) = 1;
+    acadodata_v4(1) = 1;
+    acadodata_v4(2) = 1;
     acadodata_v4(3) = 0;
     acadodata_v4(4) = 0;
     acadodata_v4(5) = 0;
@@ -183,14 +183,14 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
     OCP ocp1(0, 1, 20);
     ocp1.minimizeLSQ(acadodata_M1, acadodata_f2, acadodata_v2);
     ocp1.minimizeLSQEndTerm(acadodata_M2, acadodata_f3, acadodata_v3);
-    ocp1.subjectTo(acadodata_f1);
     ocp1.subjectTo(0.00000000000000000000e+00 <= u1 <= 8.50000000000000000000e+00);
     ocp1.subjectTo(0.00000000000000000000e+00 <= u2 <= 8.50000000000000000000e+00);
     ocp1.subjectTo(0.00000000000000000000e+00 <= u3 <= 8.50000000000000000000e+00);
     ocp1.subjectTo(0.00000000000000000000e+00 <= u4 <= 8.50000000000000000000e+00);
-    ocp1.subjectTo((-3.00000000000000000000e+00) <= Wx <= 3.00000000000000000000e+00);
-    ocp1.subjectTo((-3.00000000000000000000e+00) <= Wy <= 3.00000000000000000000e+00);
-    ocp1.subjectTo((-3.00000000000000000000e+00) <= Wz <= 3.00000000000000000000e+00);
+    ocp1.subjectTo((-3.49000000000000021316e+00) <= Wx <= 3.49000000000000021316e+00);
+    ocp1.subjectTo((-3.49000000000000021316e+00) <= Wy <= 3.49000000000000021316e+00);
+    ocp1.subjectTo((-3.49000000000000021316e+00) <= Wz <= 3.49000000000000021316e+00);
+    ocp1.subjectTo(acadodata_f1);
 
 
     OutputFcn acadodata_f4;
@@ -204,7 +204,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
     StaticReferenceTrajectory referencetrajectory;
     Controller controller3( algo1,referencetrajectory );
 
-    SimulationEnvironment algo2(0, 15, process2, controller3);
+    SimulationEnvironment algo2(0, 30, process2, controller3);
      algo2.init(acadodata_v4);
     returnValue returnvalue = algo2.run();
 
