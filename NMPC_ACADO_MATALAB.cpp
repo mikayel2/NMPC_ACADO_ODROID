@@ -70,6 +70,8 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
     Control u2;
     Control u3;
     Control u4;
+    DMatrix acadodata_M1;
+    acadodata_M1.read( "NMPC_ACADO_MATALAB_data_acadodata_M1.txt" );
     Function acadodata_f2;
     acadodata_f2 << xx;
     acadodata_f2 << xy;
@@ -87,42 +89,8 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
     acadodata_f2 << u2;
     acadodata_f2 << u3;
     acadodata_f2 << u4;
-    DMatrix acadodata_M1;
-    acadodata_M1.read( "NMPC_ACADO_MATALAB_data_acadodata_M1.txt" );
-    DVector acadodata_v1(16);
-    acadodata_v1(0) = 0;
-    acadodata_v1(1) = 0;
-    acadodata_v1(2) = 0;
-    acadodata_v1(3) = 0;
-    acadodata_v1(4) = 0;
-    acadodata_v1(5) = 0;
-    acadodata_v1(6) = 0;
-    acadodata_v1(7) = 0;
-    acadodata_v1(8) = 0;
-    acadodata_v1(9) = 0;
-    acadodata_v1(10) = 0;
-    acadodata_v1(11) = 0;
-    acadodata_v1(12) = 0;
-    acadodata_v1(13) = 0;
-    acadodata_v1(14) = 0;
-    acadodata_v1(15) = 0;
-    DVector acadodata_v2(16);
-    acadodata_v2(0) = 0;
-    acadodata_v2(1) = 0;
-    acadodata_v2(2) = 0;
-    acadodata_v2(3) = 0;
-    acadodata_v2(4) = 0;
-    acadodata_v2(5) = 0;
-    acadodata_v2(6) = 0;
-    acadodata_v2(7) = 0;
-    acadodata_v2(8) = 0;
-    acadodata_v2(9) = 0;
-    acadodata_v2(10) = 0;
-    acadodata_v2(11) = 0;
-    acadodata_v2(12) = 0;
-    acadodata_v2(13) = 0;
-    acadodata_v2(14) = 0;
-    acadodata_v2(15) = 0;
+    DMatrix acadodata_M2;
+    acadodata_M2.read( "NMPC_ACADO_MATALAB_data_acadodata_M2.txt" );
     Function acadodata_f3;
     acadodata_f3 << xx;
     acadodata_f3 << xy;
@@ -136,35 +104,6 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
     acadodata_f3 << q2;
     acadodata_f3 << q3;
     acadodata_f3 << q4;
-    DVector acadodata_v3(12);
-    acadodata_v3(0) = 0;
-    acadodata_v3(1) = 0;
-    acadodata_v3(2) = 0;
-    acadodata_v3(3) = 0;
-    acadodata_v3(4) = 0;
-    acadodata_v3(5) = 0;
-    acadodata_v3(6) = 0;
-    acadodata_v3(7) = 0;
-    acadodata_v3(8) = 0;
-    acadodata_v3(9) = 0;
-    acadodata_v3(10) = 0;
-    acadodata_v3(11) = 0;
-    DMatrix acadodata_M2;
-    acadodata_M2.read( "NMPC_ACADO_MATALAB_data_acadodata_M2.txt" );
-    DVector acadodata_v4(13);
-    acadodata_v4(0) = 1;
-    acadodata_v4(1) = 1;
-    acadodata_v4(2) = 1;
-    acadodata_v4(3) = 0;
-    acadodata_v4(4) = 0;
-    acadodata_v4(5) = 0;
-    acadodata_v4(6) = 0;
-    acadodata_v4(7) = 0;
-    acadodata_v4(8) = 0;
-    acadodata_v4(9) = 1;
-    acadodata_v4(10) = 0;
-    acadodata_v4(11) = 0;
-    acadodata_v4(12) = 0;
     DifferentialEquation acadodata_f1;
     acadodata_f1 << dot(xx) == vx;
     acadodata_f1 << dot(xy) == vy;
@@ -181,8 +120,8 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
     acadodata_f1 << dot(q4) == (-5.00000000000000000000e-01*Wx*q3+5.00000000000000000000e-01*Wy*q2+5.00000000000000000000e-01*Wz*q1);
 
     OCP ocp1(0, 1, 20);
-    ocp1.minimizeLSQ(acadodata_M1, acadodata_f2, acadodata_v2);
-    ocp1.minimizeLSQEndTerm(acadodata_M2, acadodata_f3, acadodata_v3);
+    ocp1.minimizeLSQ(acadodata_M1, acadodata_f2);
+    ocp1.minimizeLSQEndTerm(acadodata_M2, acadodata_f3);
     ocp1.subjectTo(0.00000000000000000000e+00 <= u1 <= 8.50000000000000000000e+00);
     ocp1.subjectTo(0.00000000000000000000e+00 <= u2 <= 8.50000000000000000000e+00);
     ocp1.subjectTo(0.00000000000000000000e+00 <= u3 <= 8.50000000000000000000e+00);
@@ -190,98 +129,34 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
     ocp1.subjectTo((-3.49000000000000021316e+00) <= Wx <= 3.49000000000000021316e+00);
     ocp1.subjectTo((-3.49000000000000021316e+00) <= Wy <= 3.49000000000000021316e+00);
     ocp1.subjectTo((-3.49000000000000021316e+00) <= Wz <= 3.49000000000000021316e+00);
-    ocp1.subjectTo(acadodata_f1);
+    ocp1.setModel( acadodata_f1 );
 
 
-    OutputFcn acadodata_f4;
-
-    DynamicSystem dynamicsystem1( acadodata_f1,acadodata_f4 );
-    Process process2( dynamicsystem1,INT_RK45 );
-
-    RealTimeAlgorithm algo1(ocp1, 0.05);
-    algo1.set( MAX_NUM_ITERATIONS, 2 );
-
-    StaticReferenceTrajectory referencetrajectory;
-    Controller controller3( algo1,referencetrajectory );
-
-    SimulationEnvironment algo2(0, 30, process2, controller3);
-     algo2.init(acadodata_v4);
-    returnValue returnvalue = algo2.run();
-
-
-    VariablesGrid out_processout; 
-    VariablesGrid out_feedbackcontrol; 
-    VariablesGrid out_feedbackparameter; 
-    VariablesGrid out_states; 
-    VariablesGrid out_algstates; 
-    algo2.getSampledProcessOutput(out_processout);
-    algo2.getProcessDifferentialStates(out_states);
-    algo2.getFeedbackControl(out_feedbackcontrol);
-    const char* outputFieldNames[] = {"STATES_SAMPLED", "CONTROLS", "PARAMETERS", "STATES", "ALGEBRAICSTATES", "CONVERGENCE_ACHIEVED"}; 
-    plhs[0] = mxCreateStructMatrix( 1,1,6,outputFieldNames ); 
-    mxArray *OutSS = NULL;
-    double  *outSS = NULL;
-    OutSS = mxCreateDoubleMatrix( out_processout.getNumPoints(),1+out_processout.getNumValues(),mxREAL ); 
-    outSS = mxGetPr( OutSS );
-    for( int i=0; i<out_processout.getNumPoints(); ++i ){ 
-      outSS[0*out_processout.getNumPoints() + i] = out_processout.getTime(i); 
-      for( int j=0; j<out_processout.getNumValues(); ++j ){ 
-        outSS[(1+j)*out_processout.getNumPoints() + i] = out_processout(i, j); 
-       } 
-    } 
-
-    mxSetField( plhs[0],0,"STATES_SAMPLED",OutSS );
-    mxArray *OutS = NULL;
-    double  *outS = NULL;
-    OutS = mxCreateDoubleMatrix( out_states.getNumPoints(),1+out_states.getNumValues(),mxREAL ); 
-    outS = mxGetPr( OutS );
-    for( int i=0; i<out_states.getNumPoints(); ++i ){ 
-      outS[0*out_states.getNumPoints() + i] = out_states.getTime(i); 
-      for( int j=0; j<out_states.getNumValues(); ++j ){ 
-        outS[(1+j)*out_states.getNumPoints() + i] = out_states(i, j); 
-       } 
-    } 
-
-    mxSetField( plhs[0],0,"STATES",OutS );
-    mxArray *OutC = NULL;
-    double  *outC = NULL;
-    OutC = mxCreateDoubleMatrix( out_feedbackcontrol.getNumPoints(),1+out_feedbackcontrol.getNumValues(),mxREAL ); 
-    outC = mxGetPr( OutC );
-    for( int i=0; i<out_feedbackcontrol.getNumPoints(); ++i ){ 
-      outC[0*out_feedbackcontrol.getNumPoints() + i] = out_feedbackcontrol.getTime(i); 
-      for( int j=0; j<out_feedbackcontrol.getNumValues(); ++j ){ 
-        outC[(1+j)*out_feedbackcontrol.getNumPoints() + i] = out_feedbackcontrol(i, j); 
-       } 
-    } 
-
-    mxSetField( plhs[0],0,"CONTROLS",OutC );
-    mxArray *OutP = NULL;
-    double  *outP = NULL;
-    OutP = mxCreateDoubleMatrix( out_feedbackparameter.getNumPoints(),1+out_feedbackparameter.getNumValues(),mxREAL ); 
-    outP = mxGetPr( OutP );
-    for( int i=0; i<out_feedbackparameter.getNumPoints(); ++i ){ 
-      outP[0*out_feedbackparameter.getNumPoints() + i] = out_feedbackparameter.getTime(i); 
-      for( int j=0; j<out_feedbackparameter.getNumValues(); ++j ){ 
-        outP[(1+j)*out_feedbackparameter.getNumPoints() + i] = out_feedbackparameter(i, j); 
-       } 
-    } 
-
-    mxSetField( plhs[0],0,"PARAMETERS",OutP );
-    mxArray *OutZ = NULL;
-    double  *outZ = NULL;
-    OutZ = mxCreateDoubleMatrix( out_algstates.getNumPoints(),1+out_algstates.getNumValues(),mxREAL ); 
-    outZ = mxGetPr( OutZ );
-    for( int i=0; i<out_algstates.getNumPoints(); ++i ){ 
-      outZ[0*out_algstates.getNumPoints() + i] = out_algstates.getTime(i); 
-      for( int j=0; j<out_algstates.getNumValues(); ++j ){ 
-        outZ[(1+j)*out_algstates.getNumPoints() + i] = out_algstates(i, j); 
-       } 
-    } 
-
-    mxSetField( plhs[0],0,"ALGEBRAICSTATES",OutZ );
-    mxArray *OutConv = NULL;
-    if ( returnvalue == SUCCESSFUL_RETURN ) { OutConv = mxCreateDoubleScalar( 1 ); }else{ OutConv = mxCreateDoubleScalar( 0 ); } 
-    mxSetField( plhs[0],0,"CONVERGENCE_ACHIEVED",OutConv );
+    ocp1.setNU( 4 );
+    ocp1.setNP( 0 );
+    ocp1.setNOD( 0 );
+    OCPexport ExportModule1( ocp1 );
+    ExportModule1.set( GENERATE_MATLAB_INTERFACE, 1 );
+    uint options_flag;
+    options_flag = ExportModule1.set( HESSIAN_APPROXIMATION, GAUSS_NEWTON );
+    if(options_flag != 0) mexErrMsgTxt("ACADO export failed when setting the following option: HESSIAN_APPROXIMATION");
+    options_flag = ExportModule1.set( DISCRETIZATION_TYPE, MULTIPLE_SHOOTING );
+    if(options_flag != 0) mexErrMsgTxt("ACADO export failed when setting the following option: DISCRETIZATION_TYPE");
+    options_flag = ExportModule1.set( SPARSE_QP_SOLUTION, FULL_CONDENSING_N2 );
+    if(options_flag != 0) mexErrMsgTxt("ACADO export failed when setting the following option: SPARSE_QP_SOLUTION");
+    options_flag = ExportModule1.set( INTEGRATOR_TYPE, INT_IRK_GL4 );
+    if(options_flag != 0) mexErrMsgTxt("ACADO export failed when setting the following option: INTEGRATOR_TYPE");
+    options_flag = ExportModule1.set( NUM_INTEGRATOR_STEPS, 40 );
+    if(options_flag != 0) mexErrMsgTxt("ACADO export failed when setting the following option: NUM_INTEGRATOR_STEPS");
+    options_flag = ExportModule1.set( QP_SOLVER, QP_QPOASES );
+    if(options_flag != 0) mexErrMsgTxt("ACADO export failed when setting the following option: QP_SOLVER");
+    options_flag = ExportModule1.set( HOTSTART_QP, NO );
+    if(options_flag != 0) mexErrMsgTxt("ACADO export failed when setting the following option: HOTSTART_QP");
+    options_flag = ExportModule1.set( LEVENBERG_MARQUARDT, 1.000000E-10 );
+    if(options_flag != 0) mexErrMsgTxt("ACADO export failed when setting the following option: LEVENBERG_MARQUARDT");
+    uint export_flag;
+    export_flag = ExportModule1.exportCode( "export_MPC" );
+    if(export_flag != 0) mexErrMsgTxt("ACADO export failed because of the above error(s)!");
 
 
     clearAllStaticCounters( ); 
