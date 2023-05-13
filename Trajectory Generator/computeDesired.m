@@ -140,4 +140,4 @@ end
  desired.ud = ud;
  desired.fM = fM;
  sz = size(horizon);
- desired.all = [horizon(1:(sz(1,1)-1),:), desired.x(1:(sz(1,1)-1),:), desired.v(1:(sz(1,1)-1),:), desired.w, desired.q, desired.ud];
+ desired.all = [horizon(1:(sz(1,1)-1),:), desired.x(1:(sz(1,1)-1),:), desired.v(1:(sz(1,1)-1),:), desired.q ,desired.w, desired.ud];
